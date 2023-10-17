@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-justify ">
+            <div class="col-md-5">
+                <h2 style="color: green;">Student Details</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Student Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                        <small class="text-danger" id="nameError"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date Of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="age" name="age" readonly>
+                    </div>
+                    <div>
+                        <small class="text-danger" id="nameError">Mark range from 0 to 100</small>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mark1" class="form-label">Mark1</label>
+                            <input type="text" class="form-control" id="mark1" name="mark1" maxlength="3"  min="0"  max="100" required>
+                            <small class="text-danger" id="markError1"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grade1" class="form-label" >Grade</label>
+                            <input type="text" class="form-control" id="grade1" name="grade1" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mark2" class="form-label">Mark2</label>
+                            <input type="text" class="form-control" id="mark2" name="mark2" maxlength="3"  min="0"  max="100" required>
+                            <small class="text-danger" id="markError2"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grade2" class="form-label" >Grade</label>
+                            <input type="text" class="form-control" id="grade2" name="grade2" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mark3" class="form-label" >Mark3</label>
+                            <input type="text" class="form-control" id="mark3" name="mark3" maxlength="3"   min="0"  max="100" required>
+                            <small class="text-danger" id="markError3"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grade3" class="form-label" >Grade</label>
+                            <input type="text" class="form-control" id="grade3" name="grade3" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mark4" class="form-label">Mark4</label>
+                            <input type="text" class="form-control" id="mark4" name="mark4" maxlength="3" min="0"  max="100" required>
+                            <small class="text-danger" id="markError4"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grade4" class="form-label" >Grade</label>
+                            <input type="text" class="form-control" id="grade4" name="grade4" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mark5" class="form-label">Mark5</label>
+                            <input type="text" class="form-control" id="mark5" name="mark5" maxlength="3"  min="0"  max="100" required>
+                            <small class="text-danger" id="markError5"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grade5" class="form-label" >Grade</label>
+                            <input type="text" class="form-control" id="grade5" name="grade5" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="text" class="form-control" id="total" name="total" readonly>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        $(document).ready(function(){
+            $("#dob").change(function(){
+                var input = $("#dob").val();
+                var dob = new Date(input);
+                var today = new Date();
+                var age = today.getFullYear() - dob.getFullYear();
+                if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+                $('#age').val(age);
+            });
+
+            $("#name").on("input",function(){
+                var regex = /[0-9!@#$%^&*()_+{}\[\]:;|/='"<>,?~\\-]/;
+                var name =  $("#name").val();
+                if (regex.test(name)) {
+                    $("#nameError").text("* Warning :  number / symbol not allowed.");
+                } else { 
+                    $("#nameError").text("");
+                }
+            });
+
+            function calculateGrade(mark) {
+                if (mark > 90) {
+                    return "A";
+                } else if (mark > 80) {
+                    return "B";
+                } else if (mark > 70) {
+                    return "C";
+                } else if (mark > 60) {
+                    return "D";
+                } else if (mark > 50) {
+                    return "E";
+                } else {
+                    return "F";
+                }
+            }
+
+            function updateTotalAndGrade(markId, gradeId) {
+                var mark = parseInt($(markId).val()) || -1;    
+                if(mark >=0 && mark <= 100){
+                    switch(markId){
+                   case "#mark1" : $("#markError1").text("");break;
+                   case "#mark2" : $("#markError2").text("");break;
+                   case "#mark3" : $("#markError3").text("");break;
+                   case "#mark4" : $("#markError4").text("");break;
+                   case "#mark5" : $("#markError5").text("");break; 
+                }
+                var grade = calculateGrade(mark); 
+                $(gradeId).val(grade);
+                var total = 0;
+                total += parseInt($("#mark1").val()) || 0;
+                total += parseInt($("#mark2").val()) || 0;
+                total += parseInt($("#mark3").val()) || 0;
+                total += parseInt($("#mark4").val()) || 0;
+                total += parseInt($("#mark5").val()) || 0;
+                $("#total").val(total);
+
+               }else{
+                
+                    $(markId).val("").css("background-color","white");
+                    $(gradeId).val("").css("background-color","white");
+                    $("#total").val("");             
+                
+                   switch(markId){
+                   case "#mark1" : $("#markError1").text("* mark not in range");break;
+                   case "#mark2" : $("#markError2").text("* mark not in range");break;
+                   case "#mark3" : $("#markError3").text("* mark not in range");break;
+                   case "#mark4" : $("#markError4").text("* mark not in range");break;
+                   case "#mark5" : $("#markError5").text("* mark not in range");break; 
+                   } 
+                }   
+        }
+        
+            $("#mark1").keyup(function(){
+                updateTotalAndGrade("#mark1", "#grade1");
+                $("#mark1, #grade1").css({"background-color": getColorForMark("#mark1") ,"color" : "black"});
+            });
+
+            $("#mark2").keyup(function(){
+                updateTotalAndGrade("#mark2", "#grade2");
+                $("#mark2, #grade2").css({"background-color": getColorForMark("#mark2") ,"color" : "black"});
+            });
+            $("#mark3").keyup(function(){
+                updateTotalAndGrade("#mark3", "#grade3");
+                $("#mark3, #grade3").css({"background-color": getColorForMark("#mark3") ,"color" : "black"});
+            });
+            $("#mark4").keyup(function(){
+                updateTotalAndGrade("#mark4", "#grade4");
+                $("#mark4, #grade4").css({"background-color": getColorForMark("#mark4") ,"color" : "black"});
+            });
+            $("#mark5").keyup(function(){
+                updateTotalAndGrade("#mark5", "#grade5");
+                $("#mark5, #grade5").css({"background-color":  getColorForMark("#mark5"),"color" : "black"});
+            });
+//            color function
+            function getColorForMark(markInput) {
+                var mark = parseInt($(markInput).val()) || -1; 
+                if (mark > 90) {
+                    return "green";
+                } else if (mark > 80) {
+                    return "blue";
+                } else if (mark > 70) {
+                    return "yellow";
+                } else if (mark > 60) {
+                    return "aqua";
+                } else if (mark > 50) {
+                    return "pink";
+                } else if(mark > 0 && mark <=50) {
+                    return "red";
+                }else{
+                    return "white";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

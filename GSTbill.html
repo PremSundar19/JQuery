@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-justify ">
+            <div class="col-md-5">
+                <h2>GST Calculator</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="amt" class="form-label">Amount </label>
+                        <input type="number" class="form-control" id="amt" name="amt" required>
+                        <small id="amtError" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                            <label for="select">GST</label>
+                            <select class="form-control" id="select">
+                                <option>-- Please Select -- </option>
+                                <option value="5">5%</option>
+                                <option value="12">12%</option>
+                                <option value="18">18%</option>
+                                <option value="28">28%</option>
+                            </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gst" class="form-label">GST Amount</label>
+                        <input type="number" class="form-control" id="gst" name="gst" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="discount" class="form-label" >Discount</label>
+                        <input type="number" class="form-control" id="discount" name="discount" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control" id="total" name="total" readonly >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <Script>
+     $(document).ready(function(){
+        $('#amt').on('input',function(){
+           var ogamount = parseFloat($('#amt').val());
+
+           if(ogamount > 0){
+            $('#amtError').text('');
+            $('#select').change(function(){
+                var gst = parseFloat($('#select').val());
+                var gstamt = (ogamount * gst) / 100;
+                $('#gst').val(gstamt);
+
+                var discount = 0;
+                if (ogamount >= 1000 && ogamount < 5000) {
+                        discount = ogamount * 0.025;
+                    } else if (ogamount >= 5000 && ogamount < 10000) {
+                        discount = ogamount * 0.05;
+                    } else if (ogamount >= 10000) {
+                        discount = ogamount * 0.1; 
+                    }
+                $('#discount').val(discount);
+                var total = (ogamount + gstamt) - discount;
+                $('#total').val(total);
+        });
+           }else{
+            $('#amtError').text("Negative Amount not valid");
+           }
+
+        });
+});
+
+    </Script>
+</body>
+</html>
